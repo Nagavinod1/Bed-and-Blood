@@ -804,6 +804,86 @@ GET /reports?type=hospital
 
 ---
 
+## Export Data Endpoints
+
+### 1. Export as JSON
+**Endpoint:** `GET /export/hospitals-doctors`
+
+**Description:** Export all hospitals, admins, and doctors as JSON
+
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "totalHospitals": 12,
+  "totalDoctors": 24,
+  "data": [
+    {
+      "hospitalName": "RIMS Government Hospital Kadapa",
+      "adminName": "RIMS Government Hospital Kadapa Administrator",
+      "adminEmail": "rims.kadapa@ap.gov.in",
+      "adminPhone": "+91 8562-228855",
+      "hospitalAddress": "Rajiv Gandhi Institute of Medical Sciences, Kadapa - 516003, Andhra Pradesh",
+      "hospitalPhone": "+91 8562-228855",
+      "hospitalEmail": "rims.kadapa@ap.gov.in",
+      "city": "Kadapa",
+      "specialties": "Cardiology, Neurology, Orthopedics, Pediatrics",
+      "rating": 4.2,
+      "totalReviews": 85,
+      "doctors": [
+        {
+          "doctorName": "Dr. Venkata Ramana Reddy",
+          "specialization": "Cardiology",
+          "experience": 12,
+          "qualification": "MBBS, DM (Cardiology)",
+          "consultationFee": 500,
+          "availableSlots": "09:00 AM, 10:00 AM, 02:00 PM",
+          "isAvailable": true
+        }
+      ]
+    }
+  ]
+}
+```
+
+**Authentication:** None (public endpoint)
+
+---
+
+### 2. Export as PDF
+**Endpoint:** `GET /export/pdf`
+
+**Description:** Download comprehensive PDF report with hospitals, doctors, and admin details
+
+**Response (200 OK):**
+- Downloads file: `hospitals-doctors-report.pdf`
+- Includes:
+  - Hospital details and ratings
+  - Admin information
+  - Doctors list with qualifications
+  - Summary statistics
+
+**Authentication:** None (public endpoint)
+
+---
+
+### 3. Export as CSV
+**Endpoint:** `GET /export/csv`
+
+**Description:** Download Excel-compatible CSV file with hospitals and doctors
+
+**Response (200 OK):**
+- Downloads file: `hospitals-doctors.csv`
+- Columns:
+  - Hospital Name, Admin Name, Admin Email, Admin Phone
+  - Hospital Address, Phone, City, Specialties
+  - Doctor Name, Specialization, Experience, Consultation Fee
+  - Qualification, Available Slots, Status
+
+**Authentication:** None (public endpoint)
+
+---
+
 ## Base URL Example for Testing
 
 ```bash
@@ -817,6 +897,15 @@ curl http://localhost:3000/api/hospitals/search?q=cardiology&city=NewYork
 
 # Get Hospital Details
 curl http://localhost:3000/api/hospitals/{hospital_id}
+
+# Export Data as JSON
+curl http://localhost:3000/api/export/hospitals-doctors
+
+# Download PDF Report
+curl http://localhost:3000/api/export/pdf -o hospitals-report.pdf
+
+# Download CSV Export
+curl http://localhost:3000/api/export/csv -o hospitals-data.csv
 
 # Book Appointment (requires token cookie)
 curl -X POST http://localhost:3000/api/appointments \
